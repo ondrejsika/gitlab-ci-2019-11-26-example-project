@@ -61,3 +61,15 @@ deploy dev:
   environment:
     name: $CI_COMMIT_REF_SLUG
     url: https://$CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG.$DEV_URL
+    on_stop: stop dev
+
+stop dev:
+  stage: deploy dev
+  when: manual
+  variables:
+    DOCKER_HOST: $DOCKER_HOST_SERVER
+  script:
+    - docker rm -f $CI_COMMIT_REF_SLUG || true
+  environment:
+    name: $CI_COMMIT_REF_SLUG
+    action: stop
