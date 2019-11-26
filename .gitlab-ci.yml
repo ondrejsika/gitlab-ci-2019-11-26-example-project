@@ -11,7 +11,14 @@ variables:
   GIT_CLEAN_FLAGS: -ffdx -e node_modules
 
 prettier:
+  stage: lint
   image: node
   script:
     - yarn
     - yarn prettier-check
+
+editorconfig:
+  stage: lint
+  image: mstruebing/editorconfig-checker
+  script:
+    - /ec
