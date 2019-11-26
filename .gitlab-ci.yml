@@ -31,3 +31,13 @@ build:
     - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
     - docker build -t $IMAGE .
     - docker push $IMAGE
+
+build js:
+  stage: build
+  image: node
+  script:
+    - yarn
+    - yarn static
+  artifacts:
+    paths:
+      - out
