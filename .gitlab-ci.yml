@@ -9,6 +9,8 @@ image: ondrejsika/ci
 
 variables:
   GIT_CLEAN_FLAGS: -ffdx -e node_modules
+  IMAGE: $CI_REGISTRY_IMAGE
+  DOCKER_BUILDKIT: 1
 
 prettier:
   stage: lint
@@ -22,3 +24,10 @@ editorconfig:
   image: mstruebing/editorconfig-checker
   script:
     - /ec
+
+build:
+  stage: build
+  script:
+    - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+    - docker build -t $IMAGE .
+    - docker push $IMAGE
