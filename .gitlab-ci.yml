@@ -57,11 +57,15 @@ deploy dev:
     DOCKER_HOST: $DOCKER_HOST_SERVER
   script:
     - docker rm -f $CI_COMMIT_REF_SLUG || true
+    - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+    - docker pull $IMAGE
     - docker run --name $CI_COMMIT_REF_SLUG --net traefik -l traefik.frontend.rule=Host:$CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG.$DEV_URL -l traefik.enable=true -d $IMAGE
   environment:
     name: $CI_COMMIT_REF_SLUG
     url: https://$CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG.$DEV_URL
     on_stop: stop dev
+  dependencies: []
+
 
 stop dev:
   stage: deploy dev
@@ -73,3 +77,5 @@ stop dev:
   environment:
     name: $CI_COMMIT_REF_SLUG
     action: stop
+  dependencies: []
+
