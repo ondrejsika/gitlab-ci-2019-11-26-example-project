@@ -53,6 +53,8 @@ variables:
 
 deploy dev:
   stage: deploy dev
+  variables:
+    DOCKER_HOST: $DOCKER_HOST_SERVER
   script:
-    - sshx $SSH_WEB_SERVER docker rm -f $CI_COMMIT_REF_SLUG || true
-    - sshx $SSH_WEB_SERVER docker run --name $CI_COMMIT_REF_SLUG --net traefik -l traefik.frontend.rule=Host:$CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG.$DEV_URL -l traefik.enable=true -d $IMAGE
+    - docker rm -f $CI_COMMIT_REF_SLUG || true
+    - docker run --name $CI_COMMIT_REF_SLUG --net traefik -l traefik.frontend.rule=Host:$CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG.$DEV_URL -l traefik.enable=true -d $IMAGE
