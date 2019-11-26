@@ -41,3 +41,11 @@ build js:
   artifacts:
     paths:
       - out
+
+test:
+  stage: test
+  script:
+    - docker run --name $CI_JOB_ID -d $IMAGE
+    - docker run --rm --link $CI_JOB_ID:app ondrejsika/curl http://app
+  after_script:
+    - docker rm -f $CI_JOB_ID
