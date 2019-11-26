@@ -3,7 +3,7 @@ stages:
   - build
   - test
   - deploy dev
-  - depploy prod
+  - deploy prod
 
 image: ondrejsika/ci
 
