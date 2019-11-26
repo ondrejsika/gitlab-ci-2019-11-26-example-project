@@ -66,7 +66,6 @@ deploy dev:
     on_stop: stop dev
   dependencies: []
 
-
 stop dev:
   stage: deploy dev
   when: manual
@@ -77,5 +76,22 @@ stop dev:
   environment:
     name: $CI_COMMIT_REF_SLUG
     action: stop
+  dependencies: []
+
+deploy prod:
+  stage: deploy prod
+  when: manual
+  only:
+    - master
+  variables:
+    DOCKER_HOST: $DOCKER_HOST_SERVER
+  script:
+    - docker rm -f production || true
+    - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+    - docker pull $IMAGE
+    - docker run --name production --net traefik -l traefik.frontend.rule=Host:production.$DEV_URL -l traefik.enable=true -d $IMAGE
+  environment:
+    name: production
+    url: https://production.$DEV_URL
   dependencies: []
 
