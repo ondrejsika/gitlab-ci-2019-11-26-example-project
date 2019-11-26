@@ -1,1 +1,1 @@
-export default () => <h1>🦄🦄🦄 AwesomeHello World from Next.js App🦄🦄🦄</h1>;
+export default () => <h1>🦄🦄🦄 Awesome Awesome Hello World from Next.js App🦄🦄🦄</h1>;
