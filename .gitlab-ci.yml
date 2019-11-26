@@ -1,0 +1,17 @@
+stages:
+  - lint
+  - build
+  - test
+  - deploy dev
+  - depploy prod
+
+image: ondrejsika/ci
+
+variables:
+  GIT_CLEAN_FLAGS: -ffdx -e node_modules
+
+prettier:
+  image: node
+  script:
+    - yarn
+    - yarn prettier-check
